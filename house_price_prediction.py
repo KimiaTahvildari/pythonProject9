@@ -57,7 +57,6 @@ def target_summary_with_cat(dataframe, target, categorical_col):
 for col in cat_cols:
     target_summary_with_cat(df,"SalePrice",col)
 
-
 # Bağımlı değişkenin incelenmesi
 df["SalePrice"].hist(bins=100)
 plt.show()
@@ -67,13 +66,10 @@ plt.show()
 
 corr = df[num_cols].corr()
 corr
-
 # Korelasyonların gösterilmesi
 sns.set(rc={'figure.figsize': (12, 12)})
 sns.heatmap(corr, cmap="RdBu")
 plt.show()
-
-
 
 def high_correlated_cols(dataframe, plot=False, corr_th=0.70):
     corr = dataframe.corr()
@@ -89,5 +85,3 @@ def high_correlated_cols(dataframe, plot=False, corr_th=0.70):
     return drop_list
 
 high_correlated_cols(df, plot=False)
-
-###whyyyy
