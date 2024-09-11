@@ -85,8 +85,6 @@ def high_correlated_cols(dataframe, plot=False, corr_th=0.70):
     return drop_list
 
 high_correlated_cols(df, plot=False)
-
-
 ######################
 #gorev2
 ######################
