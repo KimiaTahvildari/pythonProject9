@@ -1,2 +1,2 @@
 # pythonProject9
-the repo for house price predictin code 
+The repo for house price predicting code 
