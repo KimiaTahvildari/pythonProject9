@@ -367,7 +367,6 @@ plot_importance(model, X)
 # test dataframeindeki boş olan salePrice değişkenlerini tahminleyiniz ve
 # Kaggle sayfasına submit etmeye uygun halde bir dataframe oluşturunuz. (Id, SalePrice)
 ########################################
-
 model = LGBMRegressor()
 model.fit(X, y)
 predictions = model.predict(test_df.drop(["Id","SalePrice"], axis=1))
