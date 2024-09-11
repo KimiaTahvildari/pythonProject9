@@ -92,7 +92,6 @@ high_correlated_cols(df, plot=False)
 ######################
 # Aykırı Değer Analizi
 ######################################
-
 # Aykırı değerlerin baskılanması
 def outlier_thresholds(dataframe, variable, low_quantile=0.10, up_quantile=0.90):
     quantile_one = dataframe[variable].quantile(low_quantile)
@@ -110,11 +109,9 @@ def check_outlier(dataframe, col_name):
     else:
         return False
 
-
 for col in num_cols:
     if col != "SalePrice":
       print(col, check_outlier(df, col))
-
 
 # Aykırı değerlerin baskılanması
 def replace_with_thresholds(dataframe, variable):
@@ -122,29 +119,19 @@ def replace_with_thresholds(dataframe, variable):
     dataframe.loc[(dataframe[variable] < low_limit), variable] = low_limit
     dataframe.loc[(dataframe[variable] > up_limit), variable] = up_limit
 
-
 for col in num_cols:
     if col != "SalePrice":
         replace_with_thresholds(df,col)
 
-
-
 ######################################
 # Eksik Değer Analizi
 ######################################
-
-
 def missing_values_table(dataframe, na_name=False):
     na_columns = [col for col in dataframe.columns if dataframe[col].isnull().sum() > 0]
-
     n_miss = dataframe[na_columns].isnull().sum().sort_values(ascending=False)
-
     ratio = (dataframe[na_columns].isnull().sum() / dataframe.shape[0] * 100).sort_values(ascending=False)
-
     missing_df = pd.concat([n_miss, np.round(ratio, 2)], axis=1, keys=['n_miss', 'ratio'])
-
     print(missing_df, end="\n")
-
     if na_name:
         return na_columns
 
@@ -153,7 +140,6 @@ missing_values_table(df)
 
 df["Alley"].value_counts()
 df["BsmtQual"].value_counts()
-
 
 # Bazı değişkenlerdeki boş değerler evin o özelliğe sahip olmadığını ifade etmektedir
 no_cols = ["Alley","BsmtQual","BsmtCond","BsmtExposure","BsmtFinType1","BsmtFinType2","FireplaceQu",
@@ -165,10 +151,7 @@ for col in no_cols:
 
 missing_values_table(df)
 
-
-
 # Bu fonsksiyon eksik değerlerin median veya mean ile doldurulmasını sağlar
-
 def quick_missing_imp(data, num_method="median", cat_length=20, target="SalePrice"):
     variables_with_na = [col for col in data.columns if data[col].isnull().sum() > 0]  # Eksik değere sahip olan değişkenler listelenir
 
@@ -195,10 +178,7 @@ def quick_missing_imp(data, num_method="median", cat_length=20, target="SalePric
 
     return data
 
-
 df = quick_missing_imp(df, num_method="median", cat_length=17)
-
-
 ######################################
 # Rare analizi yapınız ve rare encoder uygulayınız.
 ######################################
@@ -214,7 +194,6 @@ def rare_analyser(dataframe, target, cat_cols):
 
 rare_analyser(df, "SalePrice", cat_cols)
 
-
 # Nadir sınıfların tespit edilmesi
 def rare_encoder(dataframe, rare_perc):
     temp_df = dataframe.copy()
@@ -229,15 +208,12 @@ def rare_encoder(dataframe, rare_perc):
 
     return temp_df
 
-
 rare_encoder(df,0.01)
 
 drop_list = ["Street", "Alley", "LandContour", "Utilities", "LandSlope","Heating", "PoolQC", "MiscFeature","Neighborhood"]
 
 # drop_list'teki değişkenlerin düşürülmesi
 df.drop(drop_list, axis=1, inplace=True)
-
-
 
 ##################
 # Label Encoding & One-Hot Encoding işlemlerini uygulayınız.
@@ -255,18 +231,14 @@ binary_cols = [col for col in df.columns if df[col].dtypes == "O" and len(df[col
 for col in binary_cols:
     label_encoder(df, col)
 
-
 def one_hot_encoder(dataframe, categorical_cols, drop_first=False):
     dataframe = pd.get_dummies(dataframe, columns=categorical_cols, drop_first=drop_first)
     return dataframe
 
 df = one_hot_encoder(df, cat_cols, drop_first=True)
-
-
 ##################################
 # MODELLEME
 ##################################
-
 ##################################
 # GÖREV 3: Model kurma
 ##################################
@@ -307,13 +279,8 @@ RMSE: 23750.4756 (XGBoost)
 RMSE: 21731.1486 (LightGBM) 
 
 """
-
-
 df['SalePrice'].mean()
 df['SalePrice'].std()
-
-
-
 
 ##################
 # BONUS : Log dönüşümü yaparak model kurunuz ve rmse sonuçlarını gözlemleyiniz.
@@ -349,10 +316,6 @@ np.sqrt(mean_squared_error(new_y_test, new_y))
 
 # RMSE : 22118.413146021652
 
-
-
-
-
 ##################
 # hiperparametre optimizasyonlarını gerçekleştiriniz.
 ##################
@@ -380,8 +343,6 @@ final_model = lgbm_model.set_params(**lgbm_gs_best.best_params_).fit(X, y)
 
 rmse = np.mean(np.sqrt(-cross_val_score(final_model, X, y, cv=5, scoring="neg_mean_squared_error")))
 
-
-
 ################################################################
 # Değişkenlerin önem düzeyini belirten feature_importance fonksiyonunu kullanarak özelliklerin sıralamasını çizdiriniz.
 ################################################################
@@ -403,10 +364,6 @@ model = LGBMRegressor()
 model.fit(X, y)
 
 plot_importance(model, X)
-
-
-
-
 
 ########################################
 # test dataframeindeki boş olan salePrice değişkenlerini tahminleyiniz ve
