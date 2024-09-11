@@ -335,12 +335,9 @@ lgbm_gs_best = GridSearchCV(lgbm_model,
                             n_jobs=-1,
                             verbose=True).fit(X_train, y_train)
 
-
-
 final_model = lgbm_model.set_params(**lgbm_gs_best.best_params_).fit(X, y)
 
 rmse = np.mean(np.sqrt(-cross_val_score(final_model, X, y, cv=5, scoring="neg_mean_squared_error")))
-
 ################################################################
 # Değişkenlerin önem düzeyini belirten feature_importance fonksiyonunu kullanarak özelliklerin sıralamasını çizdiriniz.
 ################################################################
@@ -362,10 +359,6 @@ model = LGBMRegressor()
 model.fit(X, y)
 
 plot_importance(model, X)
-
-########################################
-# test dataframeindeki boş olan salePrice değişkenlerini tahminleyiniz ve
-# Kaggle sayfasına submit etmeye uygun halde bir dataframe oluşturunuz. (Id, SalePrice)
 ########################################
 model = LGBMRegressor()
 model.fit(X, y)
